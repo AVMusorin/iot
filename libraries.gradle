@@ -1,0 +1,50 @@
+ext {
+    scalaBinaryVersion = "2.11"
+    scalaVersion = "${scalaBinaryVersion}.12"
+
+    sparkVersion = "2.3.1"
+
+    logbackVersion = "1.2.3"
+    sl4jVersion = "1.7.21"
+
+    libraries = [
+            // scala
+            scala: "org.scala-lang:scala-library:${scalaVersion}",
+
+            // logging
+            scalaLogging: "com.typesafe.scala-logging:scala-logging_${scalaBinaryVersion}:3.4.0",
+            log4j: "log4j:log4j:1.2.17",
+            slf4j: "org.slf4j:slf4j-api:${sl4jVersion}",
+            slf4j12: "org.slf4j:slf4j-log4j12:${sl4jVersion}",
+            logbackClassic: "ch.qos.logback:logback-classic:${logbackVersion}",
+            logbackCore: "ch.qos.logback:logback-core:${logbackVersion}",
+            commonsLogging: "commons-logging:commons-logging:1.2",
+
+
+            // testing
+            mockito: "org.mockito:mockito-core:1.10.19",
+            junit: "junit:junit:4.11",
+            assertJ: "org.assertj:assertj-core:2.6.0",
+            scalaTest: "org.scalatest:scalatest_${scalaBinaryVersion}:3.0.4",
+            pegdown: "org.pegdown:pegdown:1.6.0",
+            scalaMock: "org.scalamock:scalamock-scalatest-support_${scalaBinaryVersion}:3.2.2",
+            jsonAssert: "org.skyscreamer:jsonassert:1.4.0",
+            sparkTestingBase: "com.holdenkarau:spark-testing-base_${scalaBinaryVersion}:${sparkVersion}_0.10.0",
+
+            // configuration
+            commonsCli: "commons-cli:commons-cli:1.4",
+            scalaConfig: "com.typesafe:config:1.3.0",
+            scallop: "org.rogach:scallop_${scalaBinaryVersion}:3.1.1",
+
+            // spark & hadoop
+            sparkCore: "org.apache.spark:spark-core_${scalaBinaryVersion}:${sparkVersion}",
+            sparkSql: "org.apache.spark:spark-sql_${scalaBinaryVersion}:${sparkVersion}",
+            sparkHive: "org.apache.spark:spark-hive_${scalaBinaryVersion}:${sparkVersion}",
+            sparkStreaming: "org.apache.spark:spark-streaming_${scalaBinaryVersion}:${sparkVersion}",
+            kafka: "org.apache.spark:spark-sql-kafka-0-10_${scalaBinaryVersion}:${sparkVersion}",
+            elastic: "org.elasticsearch:elasticsearch-hadoop:6.4.2",
+            
+            // other
+            breeze: "org.scalanlp:breeze_${scalaBinaryVersion}:0.13.2" // линейная интерполяция
+    ]
+}

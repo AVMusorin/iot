@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  zookeeper:
+    container_name: zookeeper_dev
+    image: confluent/zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      zk_id: "1"
+
+  kafka:
+    container_name: kafka_dev
+    image: confluent/kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+    ports:
+      - "9092:9092"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
+    environment:
+      discovery.type: 'single-node'
+    volumes:
+    - ./elastic/etc:/etc/elasticsearch
+    - ./elastic/data:/usr/share/elasticsearch/data
+    ports:
+      # Порт для tcp соединения
+      - 9200:9200
+      # Порт для transport
+      - 9300:9300
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:6.5.1
+    environment:
+      elasticsearch.url: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch

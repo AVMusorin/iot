@@ -1,0 +1,26 @@
+group 'org.kamrus'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+apply from: "libraries.gradle"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile libraries.scala
+    compile libraries.log4j
+    compile libraries.sparkCore
+    compile libraries.sparkSql
+    compile libraries.sparkStreaming
+    compile libraries.scallop
+    compile libraries.kafka
+    compile libraries.breeze
+    compile libraries.elastic
+    testCompile libraries.scalaTest
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
