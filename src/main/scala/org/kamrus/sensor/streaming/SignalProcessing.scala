@@ -49,5 +49,5 @@ object SignalProcessingJob extends SignalProcessing
 class SignalProcessingOptions(arguments: Seq[String], jobName: String)
 extends JobOptions(arguments, jobName) {
   import org.rogach.scallop.{ScallopOption => Opt}
-  val inputPath: Opt[String] = trailArg(required = true)
+  val inputPath: Opt[String] = trailArg(required = false)
 }
