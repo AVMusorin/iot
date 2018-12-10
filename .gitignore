@@ -1,0 +1,10 @@
+*.class
+*.log
+
+build/
+out/
+gradle/
+.gradle/
+venv/
+.idea
+.DS_Store
