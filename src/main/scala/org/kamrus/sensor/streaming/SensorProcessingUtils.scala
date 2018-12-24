@@ -113,14 +113,25 @@ object SensorProcessingUtils {
     * @return -1 - вышел, 1 - зашел, 0 - неизвестно
     */
   def getTrend(values: List[Double]): Int = {
-    val linearInterpolator = LinearInterpolator(
-      Vector(values.indices.toList.map(_.toDouble): _*), Vector(values.toVector: _*))
-    val y1 = linearInterpolator(0)
-    val y2 = linearInterpolator(values.length - 1)
-    if (y1 > y2) {
-      Decrease
-    } else if (y1 < y2) {
+//    Intval linearInterpolator = LinearInterpolator(
+//      Vector(values.indices.toList.map(_.toDouble): _*), Vector(values.toVector: _*))
+    var sum_x = 0.0
+    var sum_y = 0.0
+    var sum_xy = 0.0
+    var sum_x2 = 0.0
+    var n: Int = values.size
+    for (i <- 0 until n) {
+      sum_x += i
+      sum_y += values(i)
+      sum_xy += i * values(i)
+      sum_x2 += i * i
+    }
+    val k = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
+    val b = (sum_y - k * sum_x) / n
+    if (k > 0) {
       Increase
+    } else if (k < 0) {
+      Decrease
     } else {
       TrendState.Undefined
     }

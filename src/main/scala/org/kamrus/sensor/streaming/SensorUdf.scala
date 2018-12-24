@@ -33,35 +33,37 @@ object SensorUdf extends Logging {
   def binaryToString: Array[Byte] => String = (payload: Array[Byte]) => new String(payload)
 
   def calculateRow(payload: Array[Byte]): String = {
-    val values: List[Int] = new String(payload).split(" ")
+    val values: List[Int] = new String(payload).trim.split(" ")
       .map(_.toInt).toList
     findDirection(values)
   }
 
   def findDirection(values: List[Int]): String = {
-    val deletedAnomalies = deleteAnomalies(values)
-    val smoothed: List[Double] = smooth(deletedAnomalies)
-    val difference = diff(smoothed)
-    log.info(difference.mkString(", "))
+    //val deletedAnomalies = deleteAnomalies(values)
+    val smoothed: List[Double] = smooth(values)
+//    val difference = diff(smoothed)
+//    log.info("Difference")
+//    log.info(difference.mkString(", "))
     // TODO: Вынести threshold в конфиг
-    val anomalies = splitAnomalies(difference, 15)
-    log.info(anomalies.mkString(", "))
+//    val anomalies = splitAnomalies(difference, 15)
+//    log.info(anomalies.mkString(", "))
     // TODO: window вынести в конфиг
-    val squashedAnomalies = squashAnomalies(anomalies, difference.length, 6)
-    log.info(squashedAnomalies.mkString(", "))
-    squashedAnomalies.length match {
-      case 0 => {
-        log.info("squashedAnomalies = 0")
-        humanReadable(getTrend(smoothed))
-      }
-      case len if len > 0 => {
-        log.info(s"squashedAnomalies = $len")
-        val delimiters = squashedAnomalies.map(_._1)
-        splitSeries(smoothed, delimiters).map {series =>
-          humanReadable(getTrend(series))
-        }.mkString(",")
-      }
-      case _ => throw new IllegalStateException("There is not any series for parse")
-    }
+//    val squashedAnomalies = squashAnomalies(anomalies, difference.length, 6)
+//    log.info(squashedAnomalies.mkString(", "))
+//    squashedAnomalies.length match {
+//      case 0 => {
+//        log.info("squashedAnomalies = 0")
+//        humanReadable(getTrend(smoothed))
+//      }
+//      case len if len > 0 => {
+//        log.info(s"squashedAnomalies = $len")
+//        val delimiters = squashedAnomalies.map(_._1)
+//        splitSeries(smoothed, delimiters).map {series =>
+//          humanReadable(getTrend(series))
+//        }.mkString(",")
+//      }
+//      case _ => throw new IllegalStateException("There is not any series for parse")
+//    }
+    humanReadable(getTrend(smoothed))
   }
 }
