@@ -26,11 +26,16 @@ trait SignalProcessing
 
     try {
       val stream: DataFrame = readFromKafka("localhost", "9092", "sensor")
+//      val signals = stream
+//        .withColumn("value", binaryToStringUdf($"value"))
+//        .filter(length($"value") > 0)
+//        .withColumn("result", calculateRowUdf($"value"))
+//        .select($"value", explode(split($"result", ",")) as "result")
+
       val signals = stream
         .withColumn("value", binaryToStringUdf($"value"))
         .filter(length($"value") > 0)
         .withColumn("result", calculateRowUdf($"value"))
-        .select($"value", explode(split($"result", ",")) as "result")
 
       val query = writeToElastic(signals).start()
       query.awaitTermination()
